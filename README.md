@@ -22,6 +22,9 @@
 - create friend request
 - accept friend request
 - decline friend request
-- real time messaging (web socket)
+- real time messaging (Firebase push notifications)
+
+## Architecture
+![Architecture](docs/assets/arch.png)
 
 
