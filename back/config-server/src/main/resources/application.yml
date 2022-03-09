@@ -2,6 +2,8 @@ server:
   port: 9002
 
 spring:
+  application:
+    name: config-server
   profiles:
     active:
       - native
@@ -12,3 +14,16 @@ spring:
           search-locations:
             - 'classpath:/config'
             - 'classpath:/config/{application}'
+
+  boot:
+    admin:
+      client:
+        url: http://localhost:9001
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always
