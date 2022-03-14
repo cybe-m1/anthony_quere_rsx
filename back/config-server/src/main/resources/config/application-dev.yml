@@ -4,6 +4,19 @@ spring:
       client:
         url: http://localhost:9001
 
+  security:
+    oauth2:
+      client:
+        registration:
+          auth0:
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          auth0:
+            issuer-uri: https://anthonyjhoiro.eu.auth0.com/
+
 management:
   endpoints:
     web:
@@ -11,3 +24,35 @@ management:
         include: "*"
     health:
       show-details: always
+
+network-config:
+  admin-server:
+    uri: http://localhost:9001
+    port: 9001
+  config-server:
+    uri: http://localhost:9002
+    port: 9002
+
+  gateway-service:
+    uri: http://localhost:8000
+    port: 8000
+
+  posts-service:
+    uri: http://localhost:8001
+    port: 8001
+  user-service:
+    uri: http://localhost:8002
+    port: 8002
+  social-service:
+    uri: http://localhost:8003
+    port: 8003
+  assets-service:
+    uri: http://localhost:8004
+    port: 8004
+
+
+
+auth0:
+  audience: tester-api
+
+

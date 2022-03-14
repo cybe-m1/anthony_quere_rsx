@@ -1,9 +1,12 @@
 package com.talky.userservice.user;
 
+import com.talky.commons.auth.AuthenticationHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -32,6 +35,10 @@ class UserService implements IUser {
   Page<UserDto> getUsers(Pageable pageable) {
     var users = userRepository.findAll(pageable);
     return users.map(this::toDto);
+  }
+
+  Optional<String> getCurrentUser() {
+    return new AuthenticationHelper().getCurrentUserId();
   }
 
 }

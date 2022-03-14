@@ -6,7 +6,7 @@
     <groupId>com.talky</groupId>
     <artifactId>spring-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../parents/spring-core/pom.xml</relativePath> <!-- lookup parent from repository -->
+    <relativePath>../parents/spring-core/pom.xml</relativePath>
   </parent>
 
   <artifactId>commons</artifactId>

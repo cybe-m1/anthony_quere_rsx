@@ -1,5 +1,5 @@
 server:
-  port: 8002
+  port: ${network-config.user-service.port}
 
 spring:
   h2:
@@ -37,8 +37,3 @@ spring:
   # Hibernate will handle the table creation.
 # --- End Postgres configuration ---
 
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
