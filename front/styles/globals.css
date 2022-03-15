@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+
+* {
+  @apply text-text
+}
+@tailwind utilities;
