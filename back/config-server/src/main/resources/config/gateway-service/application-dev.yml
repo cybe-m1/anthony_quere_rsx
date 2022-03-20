@@ -1,0 +1,11 @@
+server:
+  port: ${network-config.gateway-service.port}
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: ${network-config.user-service.uri}
+          predicates:
+            - Path=/api/v{version}/users/**
