@@ -1,2 +1,2 @@
 server:
-  port: ${}
+  port: ${network-config.admin-server.port}

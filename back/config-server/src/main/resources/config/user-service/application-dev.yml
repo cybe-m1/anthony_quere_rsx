@@ -1,39 +1,10 @@
-server:
-  port: ${network-config.user-service.port}
+postgres:
+  database: jdbc:postgresql://127.0.0.1:5432/talky_users
+  username: postgres
+  password: postgres
 
-spring:
-  h2:
-    console:
-      enabled: true
-
-  # --- Start H2 configuration ---
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: admin
-    password: admin
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    generate-ddl: on
-    hibernate:
-      ddl-auto: none
-    defer-datasource-initialization: on
-  sql:
-    init:
-      platform: h2
-      mode: always
-  # --- End H2 configuration ---
-
-  # --- Start Postgres configuration ---
-  #  datasource:
-  #    url: jdbc:postgresql://127.0.0.1:5432/talky
-  #    driver-class-name: org.postgresql.Driver
-  #    username: postgres
-  #    password: postgres
-  #  jpa:
-  #    database-platform: org.hibernate.dialect.PostgreSQLDialect
-  #    generate-ddl: on
-  # No initialization script to avoid having multiple times the same rows
-  # Hibernate will handle the table creation.
-# --- End Postgres configuration ---
+h2:
+  database: talky_users
+  username: admin
+  password: admin
 
