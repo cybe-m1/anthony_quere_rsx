@@ -1,0 +1,11 @@
+# Default configuration for Postgres
+
+spring:
+  datasource:
+    url: ${postgres.database}
+    driver-class-name: org.postgresql.Driver
+    username: ${postgres.user}
+    password: ${postgres.password}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: on
