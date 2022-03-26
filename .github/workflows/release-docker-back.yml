@@ -9,6 +9,14 @@ on:
   release:
     types: [published]
 
+  workflow_dispatch:
+    inputs:
+      name:
+        required: true
+        description: Preview Build name
+        default: "1"
+        type: string
+
 jobs:
   docker-release:
     name: Docker deployment
@@ -27,10 +35,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Get image name and tag
+      - name: Get image tags
         run: |
-          echo "::set-output name=image_name::${DOCKER_HUB_LOGIN}/${PREFIX}_$(basename ${{ matrix.module }})"
-          echo "::set-output name=tag_name::${GITHUB_REF##*/}"
+          IMAGE_NAME="${DOCKER_HUB_LOGIN}/${PREFIX}_$(basename ${{ matrix.module }}"
+
+          if [ {{ env.GITHUB_EVENT_NAME }} == "workflow_dispatch" ]; then
+            IMAGES="${IMAGE_NAME}:preview-${{ github.event.inputs.name }}"
+          else
+            IMAGES="${IMAGE_NAME}:latest,${IMAGE_NAME}:${GITHUB_REF##*/}"
+          end
+          echo "::set-output name=tags::$IMAGES"
         id: image_name
 
       - name: Login to DockerHub
@@ -44,7 +58,5 @@ jobs:
         with:
           push: true
           build-args:
-            - "MODULE=admin-server"
-          tags: |
-            ${{ steps.image_name.outputs.image_name }}:latest
-            ${{ steps.image_name.outputs.image_name }}:${{ steps.image_name.outputs.tag_name }}
+            - MODULE=${{ matrix.module }}
+          tags: ${{ steps.image_name.outputs.tags }}
