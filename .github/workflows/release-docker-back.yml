@@ -39,7 +39,9 @@ jobs:
         run: |
           IMAGE_NAME="${DOCKER_HUB_LOGIN}/${PREFIX}_$(basename ${{ matrix.module }})"
 
-          if [ {{ env.GITHUB_EVENT_NAME }} = "workflow_dispatch" ]; then
+          echo "Event Type = ${GITHUB_EVENT_NAME}"
+
+          if [ ${GITHUB_EVENT_NAME} = "workflow_dispatch" ]; then
             IMAGES="${IMAGE_NAME}:preview-${{ github.event.inputs.name }}"
           else
             IMAGES="${IMAGE_NAME}:latest,${IMAGE_NAME}:${GITHUB_REF##*/}"
