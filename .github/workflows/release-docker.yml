@@ -9,12 +9,6 @@ on:
   release:
     types: [published]
   workflow_dispatch:
-    inputs:
-      name:
-        required: true
-        description: Preview Build name
-        default: "1"
-        type: string
 
 jobs:
   docker-release:
