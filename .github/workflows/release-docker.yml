@@ -38,7 +38,7 @@ jobs:
 
       - name: Build ${{ matrix.module }}
         if: hashfile('build-docker-${{ matrix.module }}.yml') != ''
-        uses: build-docker-${{ matrix.module }}.yml
+        uses: ./.github.workflows/build-docker-${{ matrix.module }}.yml
 
 #      - name: Build and push
 #        uses: docker/build-push-action@v2
