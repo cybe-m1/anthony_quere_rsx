@@ -1,0 +1,18 @@
+name: Release Docker
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  docker-release:
+    name: Docker deployment
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build and export
+        uses: docker/build-push-action@v2
+        with:
+          context: ./back
+          build-args: MODULE=user-service
+          tags: user-service
