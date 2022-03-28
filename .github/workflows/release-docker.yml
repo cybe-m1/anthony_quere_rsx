@@ -62,5 +62,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          context: ./${{ matrix.module.path }}
+          context: ./${{ matrix.module.context }}
           tags: ${{ steps.image_name.outputs.tags }}
