@@ -1,6 +1,7 @@
 import React from "react";
-import Image from 'next/image'
 import {ProfilePicture} from "../ProfilePicture";
+import {AssetGrid} from "./AssetGrid";
+
 
 export type AssetType = 'IMAGE' | 'PDF_FILE' | 'OTHER';
 
@@ -26,6 +27,8 @@ export interface PostProps {
 }
 
 export const Post: React.VFC<PostProps> = ({post}: PostProps) => {
+
+
   return (
     <article className={"shadow-lg"}>
       <div className={'pb-4'}>
@@ -37,28 +40,11 @@ export const Post: React.VFC<PostProps> = ({post}: PostProps) => {
           {post.content}
         </p>
 
-        <div className={"flex flex-wrap basis-1/3 gap-1"}>
-          {post.assets.map((asset, index) => <div key={'asset_' + index} className={'aspect-3/1 relative flex-1 hover:scale-110 hover-z-10' }>
-            <PostAsset asset={asset} />
-          </div>)}
-        </div>
+        <AssetGrid assets={post.assets}/>
+
       </div>
     </article>
   )
 }
 
-export interface PostAsset {
-  asset: Asset
-}
 
-export const PostAsset = ({asset}: PostAsset) => {
-  if (asset.type == 'IMAGE') {
-    return <div>
-      <Image src={asset.url} objectFit={'cover'}
-             alt={'asset'}
-             layout={'fill'}/>
-    </div>
-  }
-
-  return <div/>
-}

@@ -33,6 +33,14 @@ Default.args = {
       {
         type: 'IMAGE',
         url: 'https://images.unsplash.com/photo-1647185256036-ea35af4ade52?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+      },
+      {
+        type: 'IMAGE',
+        url: 'https://images.unsplash.com/photo-1648483424607-f8da5be54b72?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80'
+      },
+      {
+        type: 'IMAGE',
+        url: 'https://images.unsplash.com/photo-1648484479126-10c313d3722d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
       }
     ],
     author: {
