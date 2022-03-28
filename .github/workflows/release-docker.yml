@@ -63,6 +63,4 @@ jobs:
         with:
           push: true
           context: ./${{ matrix.module.path }}
-          tags: |
-            ${{ steps.image_name.outputs.image_name }}:latest
-            ${{ steps.image_name.outputs.image_name }}:${{ steps.image_name.outputs.tag_name }}
+          tags: ${{ steps.image_name.outputs.tags }}
