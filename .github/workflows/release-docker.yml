@@ -80,7 +80,7 @@ jobs:
           tags: ${{ steps.image_name.outputs.tags }}
 
   deploy:
-    if: env.GITHUB_EVENT_NAME == "workflow_dispatch"
+    if: github.event_name	 == "workflow_dispatch"
     needs: docker-release
     runs-on: ubuntu-20.04
     steps:
