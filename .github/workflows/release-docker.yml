@@ -92,7 +92,7 @@ jobs:
           repo: Anthony-Jhoiro/rem_deployments
           token: ${{ secrets.REM_DEPLOYMENTS_KEY }}
           ref: master
-          changes: ${{ steps.config.deploy-config }}
+          changes: ${{ steps.config.outputs.deploy-config }}
           # slack-webhook
           commit-message: "New Deployment"
 
