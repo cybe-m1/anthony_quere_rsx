@@ -13,6 +13,13 @@ jobs:
   docker-release:
     name: Docker deployment
     runs-on: ubuntu-latest
+    outputs:
+      user-service-image: ${{ steps.image_name.outputs.deploy-user-service }}
+      gateway-image: ${{ steps.image_name.outputs.deploy-gateway }}
+      config-server-image: ${{ steps.image_name.outputs.deploy-config-server }}
+      admin-server-image: ${{ steps.image_name.outputs.deploy-admin-server }}
+
+
     strategy:
       matrix:
         module:
@@ -39,6 +46,7 @@ jobs:
       - name: Get image tags
         run: |
           IMAGE_NAME=${{ matrix.module.image }}
+          name=$(basename ${{ matrix.module.image }})
 
           echo "Event Type = ${GITHUB_EVENT_NAME}"
 
@@ -48,6 +56,7 @@ jobs:
             IMAGES="${IMAGE_NAME}:latest,${IMAGE_NAME}:${GITHUB_REF##*/}"
           fi
           echo "::set-output name=tags::$IMAGES"
+          echo "::set-output name=deploy-$name::${IMAGE_NAME}:${GITHUB_REF##*/}"
         id: image_name
 
 
@@ -65,3 +74,25 @@ jobs:
           file: ./${{ matrix.module.path }}/Dockerfile
           context: ./${{ matrix.module.context }}
           tags: ${{ steps.image_name.outputs.tags }}
+
+  deploy:
+    needs: docker-release
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Get deploy configuration
+        id: config
+        run: |
+          CONFIG='[{"path":"talky","service":"user-service","image":"${{needs.docker-release.user-service-image}}"},{"path":"talky","service":"config-server","image":"${{needs.docker-release.config-server-image}}"},{"path":"talky","service":"admin-server","image":"${{needs.docker-release.admin-server-image}}"},{"path":"talky","service":"gateway","image":"${{needs.docker-release.gateway-image}}"}]'
+          echo ::set-output name=deploy-config::$CONFIG
+
+      - name: Change versions
+        uses: Anthony-Jhoiro/docker-deploy-github-action@feat/action_basic
+        with:
+          repo: Anthony-Jhoiro/rem-deployments
+          token: ${{ secrets.REM_DEPLOYMENTS_KEY }}
+          # ref:
+          changes: ${{ steps.config.deploy-config }}
+          # slack-webhook
+          commit-message: "New Deployment"
+
+
