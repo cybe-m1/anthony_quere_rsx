@@ -46,7 +46,7 @@ jobs:
       - name: Get image tags
         run: |
           IMAGE_NAME=${{ matrix.module.image }}
-          name=$(basename ${{ matrix.module.image }})
+          name=$(basename ${{ matrix.module.path }})
 
           echo "Event Type = ${GITHUB_EVENT_NAME}"
 
@@ -90,7 +90,7 @@ jobs:
         with:
           repo: Anthony-Jhoiro/rem-deployments
           token: ${{ secrets.REM_DEPLOYMENTS_KEY }}
-          # ref:
+          ref: master
           changes: ${{ steps.config.deploy-config }}
           # slack-webhook
           commit-message: "New Deployment"
