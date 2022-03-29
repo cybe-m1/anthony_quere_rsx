@@ -52,12 +52,15 @@ jobs:
 
           if [ ${GITHUB_EVENT_NAME} = "workflow_dispatch" ]; then
             IMAGES="${IMAGE_NAME}:preview-${{github.run_number}}"
+            echo "deploy-${name} = ${IMAGE_NAME}:${GITHUB_REF##*/}"
+            echo "::set-output name=deploy-${name}::${IMAGE_NAME}:preview-${{github.run_number}}"
           else
             IMAGES="${IMAGE_NAME}:latest,${IMAGE_NAME}:${GITHUB_REF##*/}"
+            echo "deploy-${name} = ${IMAGE_NAME}:${GITHUB_REF##*/}"
+            echo "::set-output name=deploy-${name}::${IMAGE_NAME}:${GITHUB_REF##*/}"
           fi
           echo "::set-output name=tags::$IMAGES"
-          echo "deploy-${name} = ${IMAGE_NAME}:${GITHUB_REF##*/}"
-          echo "::set-output name=deploy-${name}::${IMAGE_NAME}:${GITHUB_REF##*/}"
+
         id: image_name
 
 
