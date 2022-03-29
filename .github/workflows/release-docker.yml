@@ -56,7 +56,7 @@ jobs:
             IMAGES="${IMAGE_NAME}:latest,${IMAGE_NAME}:${GITHUB_REF##*/}"
           fi
           echo "::set-output name=tags::$IMAGES"
-          echo "::set-output name=deploy-$name::${IMAGE_NAME}:${GITHUB_REF##*/}"
+          echo "::set-output name=deploy-${name}::${IMAGE_NAME}:${GITHUB_REF##*/}"
         id: image_name
 
 
@@ -88,7 +88,7 @@ jobs:
       - name: Change versions
         uses: Anthony-Jhoiro/docker-deploy-github-action@feat/action_basic
         with:
-          repo: Anthony-Jhoiro/rem-deployments
+          repo: Anthony-Jhoiro/rem_deployments
           token: ${{ secrets.REM_DEPLOYMENTS_KEY }}
           ref: master
           changes: ${{ steps.config.deploy-config }}
