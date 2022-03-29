@@ -3,7 +3,6 @@ name: Release Docker
 env:
   DOCKER_HUB_LOGIN: anthonyjhoiro
   DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-  PREFIX: talky
 
 on:
   release:
@@ -14,18 +13,56 @@ jobs:
   docker-release:
     name: Docker deployment
     runs-on: ubuntu-latest
+    outputs:
+      user-service-image: ${{ steps.image_name.outputs.deploy-user-service }}
+      gateway-image: ${{ steps.image_name.outputs.deploy-gateway }}
+      config-server-image: ${{ steps.image_name.outputs.deploy-config-server }}
+      admin-server-image: ${{ steps.image_name.outputs.deploy-admin-server }}
+
+
     strategy:
       matrix:
-        module: ["talky-front"]
+        module:
+        - path: back/user-service
+          context: back
+          image: anthonyjhoiro/talky_user-service
+
+        - path: back/admin-server
+          context: back
+          image: anthonyjhoiro/talky_admin-server
+
+        - path: back/config-server
+          context: back
+          image: anthonyjhoiro/talky_config-server
+
+        - path: back/gateway
+          context: back
+          image: anthonyjhoiro/talky_gateway
+
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Get image name and tag
+      - name: Get image tags
         run: |
-          echo "::set-output name=image_name::${DOCKER_HUB_LOGIN}/${PREFIX}_$(basename ${{ matrix.module }})"
-          echo "::set-output name=tag_name::${GITHUB_REF##*/}"
+          IMAGE_NAME=${{ matrix.module.image }}
+          name=$(basename ${{ matrix.module.path }})
+
+          echo "Event Type = ${GITHUB_EVENT_NAME}"
+
+          if [ ${GITHUB_EVENT_NAME} = "workflow_dispatch" ]; then
+            IMAGES="${IMAGE_NAME}:preview-${{github.run_number}}"
+            echo "deploy-${name} = ${IMAGE_NAME}:${GITHUB_REF##*/}"
+            echo "::set-output name=deploy-${name}::${IMAGE_NAME}:preview-${{github.run_number}}"
+          else
+            IMAGES="${IMAGE_NAME}:latest,${IMAGE_NAME}:${GITHUB_REF##*/}"
+            echo "deploy-${name} = ${IMAGE_NAME}:${GITHUB_REF##*/}"
+            echo "::set-output name=deploy-${name}::${IMAGE_NAME}:${GITHUB_REF##*/}"
+          fi
+          echo "::set-output name=tags::$IMAGES"
+
         id: image_name
+
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -33,11 +70,33 @@ jobs:
           username: anthonyjhoiro
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           push: true
-          context: ./${{ matrix.module }}
-          tags: |
-            ${{ steps.image_name.outputs.image_name }}:latest
-            ${{ steps.image_name.outputs.image_name }}:${{ steps.image_name.outputs.tag_name }}
+          file: ./${{ matrix.module.path }}/Dockerfile
+          context: ./${{ matrix.module.context }}
+          tags: ${{ steps.image_name.outputs.tags }}
+
+  deploy:
+    if: github.event_name != 'workflow_dispatch'
+    needs: docker-release
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Get deploy configuration
+        id: config
+        run: |
+          CONFIG='[{"path":"talky","service":"user-service","image":"${{needs.docker-release.outputs.user-service-image}}"},{"path":"talky","service":"config-server","image":"${{needs.docker-release.outputs.config-server-image}}"},{"path":"talky","service":"admin-server","image":"${{needs.docker-release.outputs.admin-server-image}}"},{"path":"talky","service":"gateway","image":"${{needs.docker-release.outputs.gateway-image}}"}]'
+          echo ::set-output name=deploy-config::$CONFIG
+
+      - name: Change versions
+        uses: Anthony-Jhoiro/docker-deploy-github-action@feat/action_basic
+        with:
+          repo: Anthony-Jhoiro/rem_deployments
+          token: ${{ secrets.REM_DEPLOYMENTS_KEY }}
+          ref: master
+          changes: ${{ steps.config.outputs.deploy-config }}
+          # slack-webhook
+          commit-message: "New Deployment"
+

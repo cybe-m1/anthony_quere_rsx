@@ -8,9 +8,9 @@ WORKDIR build
 COPY . .
 
 RUN mvn install -DskipTests
-RUN mvn package -DskipTests -pl $MODULE
+RUN mvn package -DskipTests -pl user-service
 
-RUN cp $MODULE/target/$MODULE-*.jar /build/app.jar
+RUN cp user-service/target/user-service-*.jar /build/app.jar
 
 FROM openjdk:17-jdk-alpine
 
