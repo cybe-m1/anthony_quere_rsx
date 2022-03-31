@@ -1,0 +1,7 @@
+
+spring:
+  application:
+    name: assets-service
+
+  config:
+    import: "configserver:http://localhost:9002"

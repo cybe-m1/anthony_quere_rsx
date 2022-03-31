@@ -16,7 +16,6 @@ public class Auth0AdienceValidatorConfig {
   @Value("${spring.security.oauth2.client.provider.auth0.issuer-uri}")
   private String issuer;
 
-
   @Bean
   public JwtDecoder jwtDecoder() {
     NimbusJwtDecoder jwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuer);

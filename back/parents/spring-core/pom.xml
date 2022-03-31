@@ -103,6 +103,12 @@
       <version>2.6.2</version>
     </dependency>
 
+    <!-- Tools -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webflux</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>

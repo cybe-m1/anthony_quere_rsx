@@ -4,4 +4,5 @@ import java.util.Optional;
 
 public interface IAuthentication {
   Optional<String> getCurrentUserId();
+  Optional<String> getCurrentUserToken();
 }
