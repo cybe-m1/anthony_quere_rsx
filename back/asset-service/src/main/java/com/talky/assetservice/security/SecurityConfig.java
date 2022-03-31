@@ -1,5 +1,6 @@
-package com.talky.userservice.security;
+package com.talky.assetservice.security;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,7 +15,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     http
       .authorizeRequests()
-      .antMatchers("/**").permitAll()
+      .antMatchers(HttpMethod.GET, "/api/v1/assets/**").permitAll()
+      .antMatchers("/**").authenticated()
       .and()
       .oauth2ResourceServer().jwt();
   }

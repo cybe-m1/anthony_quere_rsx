@@ -13,6 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class UserService implements IUser {
   private final UserRepository userRepository;
+  private final AuthenticationHelper authenticationHelper;
 
   public UserDto toDto(User user) {
     var dto = new UserDto();
@@ -38,7 +39,7 @@ class UserService implements IUser {
   }
 
   Optional<String> getCurrentUser() {
-    return new AuthenticationHelper().getCurrentUserId();
+    return authenticationHelper.getCurrentUserId();
   }
 
 }

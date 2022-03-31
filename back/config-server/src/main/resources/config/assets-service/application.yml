@@ -1,0 +1,2 @@
+server:
+  port: ${network-config.assets-service.port}
