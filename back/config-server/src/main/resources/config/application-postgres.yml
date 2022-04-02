@@ -4,8 +4,10 @@ spring:
   datasource:
     url: ${postgres.database}
     driver-class-name: org.postgresql.Driver
-    username: ${postgres.user}
+    username: ${postgres.username}
     password: ${postgres.password}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    generate-ddl: on
+  flyway:
+    placeholders:
+      db_user: ${postgres.username}

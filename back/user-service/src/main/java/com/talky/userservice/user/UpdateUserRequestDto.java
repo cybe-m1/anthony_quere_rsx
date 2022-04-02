@@ -3,8 +3,7 @@ package com.talky.userservice.user;
 import lombok.Data;
 
 @Data
-class CreateUserRequestDto {
+class UpdateUserRequestDto {
   private String displayedName;
   private String profilePicture = "";
-  private String defaultProfilePicture;
 }

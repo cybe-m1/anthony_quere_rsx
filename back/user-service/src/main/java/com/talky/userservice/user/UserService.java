@@ -1,12 +1,16 @@
 package com.talky.userservice.user;
 
+import com.talky.commons.assets.IAssets;
 import com.talky.commons.auth.AuthenticationHelper;
+import com.talky.commons.users.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -14,23 +18,37 @@ import java.util.Optional;
 class UserService implements IUser {
   private final UserRepository userRepository;
   private final AuthenticationHelper authenticationHelper;
+  private final IAssets assets;
+  private final UserMapper userMapper;
+
+  private String resolveProfilePicture(User user) {
+    if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
+      return assets.getTemporaryLink("user-profile-dev", user.getProfilePicture()).getUrl().toString();
+    }
+    return user.getDefaultProfilePicture();
+  }
 
   public UserDto toDto(User user) {
     var dto = new UserDto();
     dto.setId(user.getId());
     dto.setDisplayedName(user.getDisplayedName());
-    dto.setUsername(user.getUsername());
-    dto.setProfilePicture(user.getProfilePicture());
+    dto.setLastSeen(user.getLastSeen());
+    dto.setProfilePicture(resolveProfilePicture(user));
     return dto;
   }
 
   UserDto createUser(CreateUserRequestDto dto) {
-    var user = new User();
-    user.setUsername(dto.getUsername());
-    user.setDisplayedName(dto.getDisplayedName() == null ? dto.getUsername() : dto.getDisplayedName());
-    user.setProfilePicture(dto.getProfilePicture());
-    var u = userRepository.save(user);
-    return toDto(u);
+    var currentUserId = authenticationHelper.getCurrentUserId().orElseThrow(() -> new RuntimeException("Authentication is required"));
+    var user = userMapper.createUserRequestDtoToUser(dto);
+    user.setAccountId(currentUserId);
+    user.setLastSeen(LocalDateTime.now());
+    return toDto(userRepository.save(user));
+  }
+
+  UserDto updateUser(UpdateUserRequestDto dto) {
+    var currentUser = getCurrentUser().orElseThrow(() -> new RuntimeException("Authentication is required"));
+    userMapper.updateUser(dto, currentUser);
+    return toDto(currentUser);
   }
 
   Page<UserDto> getUsers(Pageable pageable) {
@@ -38,8 +56,22 @@ class UserService implements IUser {
     return users.map(this::toDto);
   }
 
-  Optional<String> getCurrentUser() {
-    return authenticationHelper.getCurrentUserId();
+  void updateUserLastConnection() {
+    var currentUser = getCurrentUser().orElseThrow(() -> new RuntimeException("Authentication is required"));
+    currentUser.setLastSeen(LocalDateTime.now());
+    userRepository.save(currentUser);
+  }
+
+  Optional<UserDto> getUserById(UUID id) {
+    return userRepository.findById(id).map(this::toDto);
+  }
+
+  Optional<UserDto> getCurrentUserDto() {
+    return getCurrentUser().map(this::toDto);
+  }
+
+  Optional<User> getCurrentUser() {
+    return authenticationHelper.getCurrentUserId().map(id -> userRepository.findByAccountId(id).orElseThrow(() -> new RuntimeException("User not found")));
   }
 
 }
