@@ -5,6 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "assets-service")
+@ConfigurationProperties(prefix = "network-config.assets-service")
 class AssetsClientConfiguration extends AbstractTalkyClientConfig {
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -19,13 +20,18 @@ public class User {
   private UUID id;
 
   @NotNull
-  private String username;
+  @Column(unique=true)
+  private String accountId;
 
   @NotNull
   private String displayedName;
 
-  @NotNull
   private String profilePicture;
+
+  @NotNull
+  private String defaultProfilePicture;
+
+  private LocalDateTime lastSeen = null;
 
 
 
