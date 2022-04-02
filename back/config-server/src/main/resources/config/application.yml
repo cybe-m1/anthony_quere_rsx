@@ -17,6 +17,15 @@ spring:
           auth0:
             issuer-uri: https://anthonyjhoiro.eu.auth0.com/
 
+  flyway:
+    table: flyway_schema_history
+    baseline-on-migrate: true
+    locations: classpath:db/migrations
+    schemas: public
+
+  jpa:
+    generate-ddl: false
+
 management:
   endpoints:
     web:
