@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Table(name = "t_user")
-public class User {
+class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private UUID id;

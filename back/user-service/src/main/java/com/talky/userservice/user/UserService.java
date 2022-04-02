@@ -2,14 +2,15 @@ package com.talky.userservice.user;
 
 import com.talky.commons.assets.IAssets;
 import com.talky.commons.auth.AuthenticationHelper;
+import com.talky.commons.users.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -59,6 +60,10 @@ class UserService implements IUser {
     var currentUser = getCurrentUser().orElseThrow(() -> new RuntimeException("Authentication is required"));
     currentUser.setLastSeen(LocalDateTime.now());
     userRepository.save(currentUser);
+  }
+
+  Optional<UserDto> getUserById(UUID id) {
+    return userRepository.findById(id).map(this::toDto);
   }
 
   Optional<UserDto> getCurrentUserDto() {

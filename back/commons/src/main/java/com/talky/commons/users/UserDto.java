@@ -1,4 +1,4 @@
-package com.talky.userservice.user;
+package com.talky.commons.users;
 
 import lombok.Data;
 
