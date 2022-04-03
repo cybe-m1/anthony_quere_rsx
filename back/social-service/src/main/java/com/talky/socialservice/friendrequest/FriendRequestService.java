@@ -2,6 +2,7 @@ package com.talky.socialservice.friendrequest;
 
 import com.talky.commons.users.IUsers;
 import com.talky.commons.users.UserDto;
+import com.talky.socialservice.friends.IFriendship;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ class FriendRequestService implements IFriendRequest {
   private final IUsers users;
   private final FriendRequestRepository repository;
   private final FriendRequestMapper mapper;
+  private final IFriendship iFriendship;
 
   private FriendRequestDto toDto(FriendRequest fr) {
     var dto = mapper.entityToDto(fr);
@@ -78,7 +80,7 @@ class FriendRequestService implements IFriendRequest {
     fr.setStatus(FriendRequestStatus.ACCEPTED);
     repository.save(fr);
 
-    // TODO : Create friendship
+    iFriendship.createFriendship(currentUser, users.getUserById(fr.getSender()));
   }
 
   public void refuseFriendRequest(UUID friendRequestId) {
