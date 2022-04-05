@@ -2,6 +2,8 @@ package com.talky.userservice.user;
 
 import com.talky.commons.assets.IAssets;
 import com.talky.commons.auth.AuthenticationHelper;
+import com.talky.commons.exceptions.TalkyNotFoundException;
+import com.talky.commons.exceptions.TalkyUnauthorizedException;
 import com.talky.commons.users.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,7 +40,7 @@ class UserService implements IUser {
   }
 
   UserDto createUser(CreateUserRequestDto dto) {
-    var currentUserId = authenticationHelper.getCurrentUserId().orElseThrow(() -> new RuntimeException("Authentication is required"));
+    var currentUserId = authenticationHelper.getCurrentUserId().orElseThrow(() -> new TalkyUnauthorizedException("Authentication is required"));
     var user = userMapper.createUserRequestDtoToUser(dto);
     user.setAccountId(currentUserId);
     user.setLastSeen(LocalDateTime.now());
@@ -46,7 +48,7 @@ class UserService implements IUser {
   }
 
   UserDto updateUser(UpdateUserRequestDto dto) {
-    var currentUser = getCurrentUser().orElseThrow(() -> new RuntimeException("Authentication is required"));
+    var currentUser = getCurrentUser().orElseThrow(() -> new TalkyUnauthorizedException("Authentication is required"));
     userMapper.updateUser(dto, currentUser);
     return toDto(currentUser);
   }
@@ -57,7 +59,7 @@ class UserService implements IUser {
   }
 
   void updateUserLastConnection() {
-    var currentUser = getCurrentUser().orElseThrow(() -> new RuntimeException("Authentication is required"));
+    var currentUser = getCurrentUser().orElseThrow(() -> new TalkyUnauthorizedException("Authentication is required"));
     currentUser.setLastSeen(LocalDateTime.now());
     userRepository.save(currentUser);
   }
@@ -71,7 +73,7 @@ class UserService implements IUser {
   }
 
   Optional<User> getCurrentUser() {
-    return authenticationHelper.getCurrentUserId().map(id -> userRepository.findByAccountId(id).orElseThrow(() -> new RuntimeException("User not found")));
+    return authenticationHelper.getCurrentUserId().map(id -> userRepository.findByAccountId(id).orElseThrow(() -> new TalkyNotFoundException("User not found")));
   }
 
 }
