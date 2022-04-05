@@ -5,6 +5,8 @@ import com.talky.commons.client.AbstractTalkyClient;
 import com.talky.commons.client.AbstractTalkyClientConfig;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 class UsersClient extends AbstractTalkyClient implements IUsers {
   public UsersClient(IAuthentication authentication, AbstractTalkyClientConfig config) {
@@ -20,10 +22,10 @@ class UsersClient extends AbstractTalkyClient implements IUsers {
       .block();
   }
 
-  public UserDto getUserById() {
+  public UserDto getUserById(UUID id) {
     return buildWebClient()
       .get()
-      .uri("/api/v1/users/{}")
+      .uri("/api/v1/users/" + id)
       .retrieve()
       .bodyToMono(UserDto.class)
       .block();

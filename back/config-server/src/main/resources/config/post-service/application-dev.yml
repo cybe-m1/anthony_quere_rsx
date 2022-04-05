@@ -1,0 +1,10 @@
+postgres:
+  database: jdbc:postgresql://127.0.0.1:5432/talky_posts
+  username: postgres
+  password: postgres
+
+h2:
+  database: talky_posts
+  username: admin
+  password: admin
+
