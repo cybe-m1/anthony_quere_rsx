@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +26,21 @@ class FriendshipService implements IFriendship {
 
     var dto = mapper.entityToDto(fs);
 
-    dto.setFriendA(friendA);
-    dto.setFriendB(friendB);
+    dto.setFriends(Set.of(friendA, friendB));
+
+    return dto;
+  }
+
+  @Override
+  public FriendshipDto getFriendship(UUID friendship) {
+    var fs = repository.findById(friendship).orElseThrow();
+
+    var dto = mapper.entityToDto(fs);
+
+    dto.setFriends(Set.of(
+      users.getUserById(fs.getFriendA()),
+      users.getUserById(fs.getFriendB())
+    ));
 
     return dto;
   }

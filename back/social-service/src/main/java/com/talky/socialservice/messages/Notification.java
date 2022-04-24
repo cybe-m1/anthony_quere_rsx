@@ -1,6 +1,10 @@
 package com.talky.socialservice.messages;
 
-public record Notification(String title, String message) {
+
+import java.util.Map;
+
+public record Notification(String title, String message, MessageData body) {
+
   public com.google.firebase.messaging.Notification toFirebaseNotification() {
     return com.google.firebase.messaging.Notification
       .builder()

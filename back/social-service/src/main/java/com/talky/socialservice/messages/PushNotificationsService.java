@@ -28,6 +28,7 @@ class PushNotificationsService {
       .builder()
       .setToken(token)
       .setNotification(fbNotification)
+      .putAllData(notification.body().toMessageData())
       .build()).toList();
 
     firebaseMessaging.sendAll(messages);

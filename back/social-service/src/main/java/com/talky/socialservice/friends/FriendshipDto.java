@@ -11,14 +11,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.UUID;
 
 @Data
 public class FriendshipDto {
   private UUID id;
 
-  private UserDto friendA;
-  private UserDto friendB;
+  private Collection<UserDto> friends;
 
   private LocalDateTime creationDate;
+
+  public boolean isPartOfFriendship(UUID userID) {
+    return friends.stream().anyMatch(dto -> dto.getId().equals(userID));
+  }
 }
