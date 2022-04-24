@@ -1,4 +1,4 @@
-package com.talky.socialservice.messages;
+package com.talky.socialservice.pushnotification;
 
 import java.util.Map;
 

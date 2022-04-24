@@ -1,5 +1,6 @@
 package com.talky.socialservice.messages;
 
+import com.talky.socialservice.pushnotification.MessageData;
 import lombok.Data;
 
 import java.time.LocalDateTime;

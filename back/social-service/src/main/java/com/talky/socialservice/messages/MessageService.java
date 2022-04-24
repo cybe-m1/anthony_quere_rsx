@@ -3,6 +3,8 @@ package com.talky.socialservice.messages;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.talky.commons.users.IUsers;
 import com.talky.socialservice.friends.IFriendship;
+import com.talky.socialservice.pushnotification.IPushNotification;
+import com.talky.socialservice.pushnotification.Notification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ class MessageService {
   private final MessageMapper mapper;
   private final IUsers users;
   private final IFriendship friendship;
-  private final PushNotificationsService pushNotificationsService;
+  private final IPushNotification pushNotificationsService;
 
   public MessageDto sendMessage(MessageRequestDto dto) {
     var currentUser = users.getCurentUser();
@@ -32,7 +34,7 @@ class MessageService {
     message.setAuthor(currentUser.getId());
     message.setCreatedAt(LocalDateTime.now());
 
-    var messageDto =  mapper.entitytoDto(messageRepository.save(message));
+    var messageDto = mapper.entitytoDto(messageRepository.save(message));
 
     // Send notification
     var notification = new Notification("New message from %s".formatted(currentUser.getDisplayedName()), message.getContent(), messageDto);
@@ -40,13 +42,9 @@ class MessageService {
     fs.getFriends()
       .stream()
       .filter(f -> !f.getId().equals(currentUser.getId()))
-      .forEach(user ->  {
-        try {
-          pushNotificationsService.sendNotification(user.getId(), notification);
-        } catch (FirebaseMessagingException ex) {
-          log.warn("Fail to send firebase notification : {}", ex.getMessagingErrorCode());
-        }
-      });
+      .forEach(user ->
+        pushNotificationsService.sendNotification(user.getId(), notification)
+      );
 
     return messageDto;
   }

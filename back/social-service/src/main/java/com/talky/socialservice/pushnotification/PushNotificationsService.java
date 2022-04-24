@@ -1,21 +1,23 @@
-package com.talky.socialservice.messages;
+package com.talky.socialservice.pushnotification;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.talky.commons.users.IUsers;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-class PushNotificationsService {
+@Slf4j
+class PushNotificationsService implements IPushNotification {
   private final FirebaseMessaging firebaseMessaging;
   private final IUsers iUsers;
 
-  public void sendNotification(UUID userId, Notification notification) throws FirebaseMessagingException {
+  public void sendNotification(UUID userId, Notification notification) {
 
     // Build notification
     var fbNotification = notification.toFirebaseNotification();
@@ -31,6 +33,10 @@ class PushNotificationsService {
       .putAllData(notification.body().toMessageData())
       .build()).toList();
 
-    firebaseMessaging.sendAll(messages);
+    try {
+      firebaseMessaging.sendAll(messages);
+    } catch (FirebaseMessagingException ex) {
+      log.warn("Fail to send firebase notification : {}", ex.getMessagingErrorCode());
+    }
   }
 }

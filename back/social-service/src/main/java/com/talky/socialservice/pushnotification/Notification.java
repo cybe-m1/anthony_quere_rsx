@@ -1,7 +1,5 @@
-package com.talky.socialservice.messages;
+package com.talky.socialservice.pushnotification;
 
-
-import java.util.Map;
 
 public record Notification(String title, String message, MessageData body) {
 
