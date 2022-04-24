@@ -1,15 +1,18 @@
 package com.talky.socialservice.messages;
 
-import com.google.firebase.messaging.FirebaseMessagingException;
+
 import com.talky.commons.users.IUsers;
 import com.talky.socialservice.friends.IFriendship;
 import com.talky.socialservice.pushnotification.IPushNotification;
 import com.talky.socialservice.pushnotification.Notification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +50,24 @@ class MessageService {
       );
 
     return messageDto;
+  }
+
+  public Page<MessageDto> listMessages(UUID friendshipId, MessageFetchOption fetchOption, LocalDateTime dateTime, int limit) {
+    var page = Pageable.ofSize(limit);
+
+    var currentUser = users.getCurentUser();
+
+    var fs = friendship.getFriendship(friendshipId);
+    if (!fs.isPartOfFriendship(currentUser.getId())) {
+      throw new RuntimeException("UAUTHORIZED");
+    }
+
+    var messages = switch (fetchOption) {
+      case AFTER -> messageRepository.getByFriendshipIdAndCreatedAtAfter(friendshipId, dateTime, page);
+      case BEFORE -> messageRepository.getByFriendshipIdAndCreatedAtBefore(friendshipId, dateTime, page);
+    };
+
+    return messages.map(mapper::entitytoDto);
   }
 
 }

@@ -1,5 +1,6 @@
 package com.talky.socialservice.messages;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.talky.socialservice.pushnotification.MessageData;
 import lombok.Data;
 
@@ -20,7 +21,7 @@ public class MessageDto implements MessageData {
     return Map.of(
       "id", id.toString(),
       "friendshipId", friendshipId.toString(),
-      "author", author.toString(),
+      "author",  author.toString(),
       "content", content,
       "createdAt", createdAt.toString()
     );
