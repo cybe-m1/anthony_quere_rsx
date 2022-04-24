@@ -1,5 +1,6 @@
 package com.talky.userservice.devices;
 
+import com.talky.commons.users.DeviceDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
