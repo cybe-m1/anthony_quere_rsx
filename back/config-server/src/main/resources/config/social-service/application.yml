@@ -1,0 +1,3 @@
+# Global configuration
+server:
+  port: ${network-config.social-service.port}

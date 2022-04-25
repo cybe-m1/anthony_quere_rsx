@@ -1,0 +1,7 @@
+
+spring:
+  application:
+    name: social-service
+
+  config:
+    import: "configserver:http://localhost:9002"

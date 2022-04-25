@@ -22,6 +22,7 @@
     <module>config-server</module>
     <module>parents</module>
     <module>user-service</module>
+    <module>social-service</module>
     <module>admin-server</module>
     <module>gateway</module>
   </modules>
