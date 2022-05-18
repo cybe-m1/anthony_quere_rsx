@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-class DeviceService {
+class DeviceService implements IDevices {
   private final DeviceRepository deviceRepository;
   private final DeviceMapper mapper;
 

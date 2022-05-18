@@ -12,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Table(name = "t_post")
 @NoArgsConstructor
 class Post {
   @Id
@@ -25,7 +26,7 @@ class Post {
 
   @ElementCollection
   @JoinTable(
-    name = "post_assets",
+    name = "t_post_asset",
     joinColumns = @JoinColumn(name = "post_id")
   )
   @Column(name = "asset_id")

@@ -17,10 +17,12 @@ class PostService implements IPost {
   private final PostMapper mapper;
   private final IAssets assets;
 
+
+
   PostDto toDto(Post post) {
     var dto = mapper.toDto(post);
     dto.setAuthor(users.getUserById(post.getAuthor()));
-    dto.setAssets(post.getAssets().stream().map(assetId -> assets.getTemporaryLink("posts-dev", assetId).getUrl().toString()).toList());
+    dto.setAssets(post.getAssets().stream().map(assetId -> assets.getTemporaryLink("posts-assets", assetId).getUrl().toString()).toList());
     return dto;
   }
 
@@ -28,7 +30,7 @@ class PostService implements IPost {
     var currentUser = users.getCurentUser();
     var post = new Post(currentUser.getId(), dto.getContent(), dto.getPrivacy(), dto.getAssets());
 
-    return mapper.toDto(repository.save(post));
+    return toDto(repository.save(post));
   }
 
   List<PostDto> listPosts(Pageable pageable) {

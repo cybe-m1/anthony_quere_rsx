@@ -1,4 +1,4 @@
-create table if not exists posts
+create table if not exists t_post
 (
   id        uuid primary key,
   author    uuid                     not null,
@@ -7,8 +7,8 @@ create table if not exists posts
   privacy   varchar                  not null default 'PUBLIC'
 );
 
-create table if not exists post_assets
+create table if not exists t_post_asset
 (
-  asset_id uuid not null primary key,
+  asset_id varchar not null primary key,
   post_id  uuid not null
 );

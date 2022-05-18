@@ -1,2 +1,7 @@
 server:
   port: ${network-config.assets-service.port}
+
+
+spring:
+  flyway:
+    enabled: false
