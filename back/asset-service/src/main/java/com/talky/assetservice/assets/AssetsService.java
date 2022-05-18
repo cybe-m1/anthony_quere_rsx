@@ -30,7 +30,7 @@ class AssetsService {
 
     try {
       var key = storage.uploadFile(group, file.getBytes(), originalFileExtention);
-      var uri = storage.getTemporaryLink("test", key);
+      var uri = storage.getTemporaryLink(group, key);
       return new AssetUploadResponseDto(key, uri);
     } catch (IOException ex) {
       return null;
