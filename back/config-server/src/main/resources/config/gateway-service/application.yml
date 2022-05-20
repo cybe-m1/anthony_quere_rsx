@@ -5,17 +5,26 @@ spring:
   cloud:
     gateway:
       routes:
-#        - id: user-service
-#          uri: ${network-config.user-service.uri}
-#          predicates:
-#            - Path=/api/v{version}/users/**
-
-        - id: post-service
+        - id: posts-service
           uri: ${network-config.posts-service.uri}
           predicates:
             - Path=/posts/**
           filters:
             - RewritePath=/posts/(?<path>.*), /$\{path}
+
+        - id: user-service
+          uri: ${network-config.user-service.uri}
+          predicates:
+            - Path=/users/**
+          filters:
+            - RewritePath=/users/(?<path>.*), /$\{path}
+
+        - id: social-service
+          uri: ${network-config.social-service.uri}
+          predicates:
+            - Path=/social/**
+          filters:
+            - RewritePath=/social/(?<path>.*), /$\{path}
 
         - id: openapi
           uri: http://localhost:${server.port}
@@ -30,4 +39,8 @@ springdoc:
     urls:
       - name: posts
         url: /v3/api-docs/posts
+      - name: users
+        url: /v3/api-docs/users
+      - name: social
+        url: /v3/api-docs/social
 
