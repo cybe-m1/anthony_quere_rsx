@@ -6,4 +6,6 @@ public interface IStorage {
   String uploadFile(String group, byte[] fileContent, String fileExtention);
 
   URL getTemporaryLink(String group, String identifier);
+
+  URL getUploadTemporaryLink(String group, String extention);
 }
