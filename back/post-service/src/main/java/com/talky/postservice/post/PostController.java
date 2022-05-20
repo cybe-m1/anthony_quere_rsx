@@ -1,6 +1,9 @@
 package com.talky.postservice.post;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +17,19 @@ import java.util.UUID;
 class PostController {
   private final PostService postService;
 
+  @Operation(description = "List posts from a user")
   @GetMapping("/author/{authorId}")
-  List<PostDto> listUserPosts(@PathVariable UUID authorId) {
-    return postService.getUserPosts(authorId, Pageable.ofSize(Integer.MAX_VALUE));
+  List<PostDto> listUserPosts(@Parameter(description = "UUID of the posts author") @PathVariable UUID authorId, @ParameterObject Pageable pageable) {
+    return postService.getUserPosts(authorId, pageable);
   }
 
+  @Operation(description = "List public posts")
   @GetMapping
-  List<PostDto> listPosts() {
-    return postService.listPosts(Pageable.ofSize(Integer.MAX_VALUE));
+  List<PostDto> listPosts(@ParameterObject Pageable pageable) {
+    return postService.listPosts(pageable);
   }
 
+  @Operation(description = "Create a post")
   @PostMapping
   PostDto createPost(@RequestBody CreatePostRequestDto dto) {
     return postService.createPost(dto);

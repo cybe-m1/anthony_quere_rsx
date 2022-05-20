@@ -5,7 +5,29 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: user-service
-          uri: ${network-config.user-service.uri}
+#        - id: user-service
+#          uri: ${network-config.user-service.uri}
+#          predicates:
+#            - Path=/api/v{version}/users/**
+
+        - id: post-service
+          uri: ${network-config.posts-service.uri}
           predicates:
-            - Path=/api/v{version}/users/**
+            - Path=/posts/**
+          filters:
+            - RewritePath=/posts/(?<path>.*), /$\{path}
+
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: posts
+        url: /v3/api-docs/posts
+

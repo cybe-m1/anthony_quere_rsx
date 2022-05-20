@@ -1,5 +1,6 @@
 package com.talky.commons.assets.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import java.net.URL;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AssetUploadResponseDto {
+  @Schema(description = "Id of the asset, assets ids or composed of a UUID followed by the file extention")
   private String id;
+  @Schema(description = "Temporary link of the asset")
   private URL url;
 }

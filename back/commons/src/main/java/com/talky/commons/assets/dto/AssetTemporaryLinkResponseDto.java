@@ -1,5 +1,6 @@
 package com.talky.commons.assets.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +14,6 @@ import java.net.URL;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AssetTemporaryLinkResponseDto {
+  @Schema(description = "Temporary Url of an asset. Warning : The Asset miht not exist.")
   private URL url;
 }
