@@ -1,5 +1,6 @@
 package com.talky.socialservice.messages;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,11 +15,13 @@ import java.util.UUID;
 class MessageController {
   private final MessageService messageService;
 
+  @Operation(description = "Send a message, if the reciepient has registered a device, he will recieved a push notification.")
   @PostMapping
   MessageDto postMessage(@RequestBody MessageRequestDto dto) {
     return messageService.sendMessage(dto);
   }
 
+  @Operation(description = "List messages for a specific friendship")
   @GetMapping("/friendship/{friendshipId}")
   Page<MessageDto> listMessages(
     @PathVariable UUID friendshipId,

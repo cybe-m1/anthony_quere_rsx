@@ -1,6 +1,7 @@
 package com.talky.socialservice.friends;
 
 import com.talky.commons.users.UserDto;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +17,13 @@ import java.util.UUID;
 
 @Data
 public class FriendshipDto {
+  @Schema(description = "UUID of the friendship")
   private UUID id;
 
+  @Schema(description = "List of friends in the friendship")
   private Collection<UserDto> friends;
 
+  @Schema(description = "Creation datetime")
   private LocalDateTime creationDate;
 
   public boolean isPartOfFriendship(UUID userID) {
