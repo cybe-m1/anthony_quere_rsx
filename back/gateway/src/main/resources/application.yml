@@ -4,6 +4,3 @@ spring:
 
   config:
     import: "configserver:http://localhost:9002"
-
-  profiles:
-    active: dev
