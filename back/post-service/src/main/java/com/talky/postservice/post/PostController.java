@@ -1,5 +1,6 @@
 package com.talky.postservice.post;
 
+import com.talky.commons.assets.dto.AssetTemporaryLinkResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +34,11 @@ class PostController {
   @PostMapping
   PostDto createPost(@RequestBody CreatePostRequestDto dto) {
     return postService.createPost(dto);
+  }
+
+  @Operation(description = "Generate an upload link for an asset. The link can be used by a form to upload an asset. The generated link is available for 30 minutes.")
+  @GetMapping("/asset/upload")
+  AssetTemporaryLinkResponseDto getAssetUploadLink(@RequestParam String extension) {
+    return postService.getAssetUploadLink(extension);
   }
 }

@@ -1,6 +1,7 @@
 package com.talky.socialservice.messages;
 
 
+import com.talky.commons.assets.IAssets;
 import com.talky.commons.users.IUsers;
 import com.talky.socialservice.friends.IFriendship;
 import com.talky.socialservice.pushnotification.IPushNotification;
@@ -23,6 +24,7 @@ class MessageService {
   private final IUsers users;
   private final IFriendship friendship;
   private final IPushNotification pushNotificationsService;
+  private final IAssets assets;
 
   public MessageDto sendMessage(MessageRequestDto dto) {
     var currentUser = users.getCurentUser();

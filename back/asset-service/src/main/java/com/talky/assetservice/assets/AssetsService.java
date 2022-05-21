@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
 
 @Service
@@ -37,7 +36,11 @@ class AssetsService {
     }
   }
 
-  AssetTemporaryLinkResponseDto getImageTemporaryLink(String groupId, String assetId) {
+  AssetTemporaryLinkResponseDto getAssetUploadTemporaryLink(String groupId, String extention) {
+    return new AssetTemporaryLinkResponseDto(storage.getUploadTemporaryLink(groupId, extention));
+  }
+
+  AssetTemporaryLinkResponseDto getAssetTemporaryLink(String groupId, String assetId) {
     return new AssetTemporaryLinkResponseDto(storage.getTemporaryLink(groupId, assetId));
   }
 

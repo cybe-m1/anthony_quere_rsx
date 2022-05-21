@@ -21,9 +21,15 @@ class AssetsController {
     return assetsService.upload(dto.getGroup(), dto.getFile());
   }
 
-  @Operation(description = "Get an asset, the group must be the same as in the asset creation.")
+  @Operation(description = "Get an asset, the group must be the same as in the asset creation")
   @GetMapping("/{groupId}/{assetId}")
   public AssetTemporaryLinkResponseDto getAssetLink(@PathVariable String groupId, @PathVariable String assetId) {
-    return assetsService.getImageTemporaryLink(groupId, assetId);
+    return assetsService.getAssetTemporaryLink(groupId, assetId);
+  }
+
+  @Operation(description = "Get an upload url for an asset in a given group with a given extention")
+  @GetMapping("/upload/{groupId}")
+  public AssetTemporaryLinkResponseDto getAssetUploadLink(@PathVariable String groupId, @RequestParam String extension) {
+    return assetsService.getAssetUploadTemporaryLink(groupId, extension);
   }
 }

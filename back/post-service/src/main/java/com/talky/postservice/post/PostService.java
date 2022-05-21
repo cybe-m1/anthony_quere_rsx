@@ -1,6 +1,7 @@
 package com.talky.postservice.post;
 
 import com.talky.commons.assets.IAssets;
+import com.talky.commons.assets.dto.AssetTemporaryLinkResponseDto;
 import com.talky.commons.users.IUsers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +18,16 @@ class PostService implements IPost {
   private final PostMapper mapper;
   private final IAssets assets;
 
+  private final static String ASSET_BUCKET_DIR = "posts-assets";
 
+  AssetTemporaryLinkResponseDto getAssetUploadLink(String extension) {
+    return assets.getUploadTemporaryLink(ASSET_BUCKET_DIR, extension);
+  }
 
   PostDto toDto(Post post) {
     var dto = mapper.toDto(post);
     dto.setAuthor(users.getUserById(post.getAuthor()));
-    dto.setAssets(post.getAssets().stream().map(assetId -> assets.getTemporaryLink("posts-assets", assetId).getUrl().toString()).toList());
+    dto.setAssets(post.getAssets().stream().map(assetId -> assets.getTemporaryLink(ASSET_BUCKET_DIR, assetId).getUrl().toString()).toList());
     return dto;
   }
 
