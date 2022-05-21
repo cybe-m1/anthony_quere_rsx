@@ -4,4 +4,5 @@ import com.talky.commons.assets.dto.AssetTemporaryLinkResponseDto;
 
 public interface IAssets {
   AssetTemporaryLinkResponseDto getTemporaryLink(String groupId, String assetId);
+  AssetTemporaryLinkResponseDto getUploadTemporaryLink(String groupId, String extension);
 }

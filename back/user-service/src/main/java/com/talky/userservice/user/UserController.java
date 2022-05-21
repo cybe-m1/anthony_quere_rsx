@@ -1,5 +1,6 @@
 package com.talky.userservice.user;
 
+import com.talky.commons.assets.dto.AssetTemporaryLinkResponseDto;
 import com.talky.commons.users.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +51,11 @@ class UserController {
   @PostMapping
   public UserDto createUser(@RequestBody CreateUserRequestDto dto) {
     return userService.createUser(dto);
+  }
+
+  @Operation(description = "Generate an upload link for a profile picture. The link can be used by a form to upload a profile picture. The generated link is available for 30 minutes.")
+  @GetMapping("/profile-picture/upload")
+  AssetTemporaryLinkResponseDto getAssetUploadLink(@RequestParam String extension) {
+    return userService.getProfilePictureUploadLink(extension);
   }
 }

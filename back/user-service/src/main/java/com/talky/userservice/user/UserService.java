@@ -1,6 +1,7 @@
 package com.talky.userservice.user;
 
 import com.talky.commons.assets.IAssets;
+import com.talky.commons.assets.dto.AssetTemporaryLinkResponseDto;
 import com.talky.commons.auth.AuthenticationHelper;
 import com.talky.commons.exceptions.TalkyNotFoundException;
 import com.talky.commons.exceptions.TalkyUnauthorizedException;
@@ -23,9 +24,15 @@ class UserService implements IUser {
   private final IAssets assets;
   private final UserMapper userMapper;
 
+  private final static String ASSET_BUCKET_DIR = "user-profile-dev";
+
+  AssetTemporaryLinkResponseDto getProfilePictureUploadLink(String extension) {
+    return assets.getUploadTemporaryLink(ASSET_BUCKET_DIR, extension);
+  }
+
   private String resolveProfilePicture(User user) {
     if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
-      return assets.getTemporaryLink("user-profile-dev", user.getProfilePicture()).getUrl().toString();
+      return assets.getTemporaryLink(ASSET_BUCKET_DIR, user.getProfilePicture()).getUrl().toString();
     }
     return user.getDefaultProfilePicture();
   }

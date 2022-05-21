@@ -29,7 +29,7 @@ class AssetsController {
 
   @Operation(description = "Get an upload url for an asset in a given group with a given extention")
   @GetMapping("/upload/{groupId}")
-  public AssetTemporaryLinkResponseDto getAssetUploadLink(@PathVariable String groupId, @RequestParam String extention) {
-    return assetsService.getAssetUploadTemporaryLink(groupId, extention);
+  public AssetTemporaryLinkResponseDto getAssetUploadLink(@PathVariable String groupId, @RequestParam String extension) {
+    return assetsService.getAssetUploadTemporaryLink(groupId, extension);
   }
 }

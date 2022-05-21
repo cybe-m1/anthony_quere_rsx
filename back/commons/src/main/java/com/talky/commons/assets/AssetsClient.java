@@ -24,5 +24,19 @@ class AssetsClient extends AbstractTalkyClient implements IAssets {
       .block();
   }
 
+  public AssetTemporaryLinkResponseDto getUploadTemporaryLink(String groupId, String extension) {
+    return buildWebClient()
+      .get()
+      .uri(uriBuilder ->
+        uriBuilder
+          .path("/api/v1/assets/upload/{groupId}")
+          .queryParam("extension", extension)
+          .build(groupId)
+      )
+      .retrieve()
+      .bodyToMono(AssetTemporaryLinkResponseDto.class)
+      .block();
+  }
+
 
 }

@@ -32,15 +32,14 @@ class StorageService implements IStorage {
     Map<String, String> extensionHeaders = new HashMap<>();
     extensionHeaders.put("Content-Type", "application/octet-stream");
 
-    storage.signUrl(
-        buildBlobInfo(group, key),
-        30,
-        TimeUnit.MINUTES,
-        Storage.SignUrlOption.httpMethod(HttpMethod.PUT),
-        Storage.SignUrlOption.withExtHeaders(extensionHeaders),
-        Storage.SignUrlOption.withV4Signature()
-      );
-    return null;
+    return storage.signUrl(
+      buildBlobInfo(group, key),
+      30,
+      TimeUnit.MINUTES,
+      Storage.SignUrlOption.httpMethod(HttpMethod.PUT),
+      Storage.SignUrlOption.withExtHeaders(extensionHeaders),
+      Storage.SignUrlOption.withV4Signature()
+    );
   }
 
   public String uploadFile(String group, byte[] fileContent, String extention) {
