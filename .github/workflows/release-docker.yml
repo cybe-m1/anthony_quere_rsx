@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       user-service-image: ${{ steps.image_name.outputs.deploy-user-service }}
+      post-service-image: ${{ steps.image_name.outputs.deploy-post-service }}
+      social-service-image: ${{ steps.image_name.outputs.deploy-social-service }}
+      asset-service-image: ${{ steps.image_name.outputs.deploy-asset-service }}
       gateway-image: ${{ steps.image_name.outputs.deploy-gateway }}
       config-server-image: ${{ steps.image_name.outputs.deploy-config-server }}
       admin-server-image: ${{ steps.image_name.outputs.deploy-admin-server }}
@@ -38,6 +41,18 @@ jobs:
         - path: back/gateway
           context: back
           image: anthonyjhoiro/talky_gateway
+
+        - path: back/post-service
+          context: back
+          image: anthonyjhoiro/talky_post-service
+
+        - path: back/social-service
+          context: back
+          image: anthonyjhoiro/talky_social-service
+
+        - path: back/asset-service
+          context: back
+          image: anthonyjhoiro/talky_asset-service
 
 
     steps:
@@ -87,7 +102,7 @@ jobs:
       - name: Get deploy configuration
         id: config
         run: |
-          CONFIG='[{"path":"talky","service":"user-service","image":"${{needs.docker-release.outputs.user-service-image}}"},{"path":"talky","service":"config-server","image":"${{needs.docker-release.outputs.config-server-image}}"},{"path":"talky","service":"admin-server","image":"${{needs.docker-release.outputs.admin-server-image}}"},{"path":"talky","service":"gateway","image":"${{needs.docker-release.outputs.gateway-image}}"}]'
+          CONFIG='[{"path":"talky","service":"user-service","image":"${{needs.docker-release.outputs.user-service-image}}"},{"path":"talky","service":"post-service","image":"${{needs.docker-release.outputs.post-service-image}}"},{"path":"talky","service":"asset-service","image":"${{needs.docker-release.outputs.asset-service-image}}"},{"path":"talky","service":"social-service","image":"${{needs.docker-release.outputs.social-service-image}}"},{"path":"talky","service":"config-server","image":"${{needs.docker-release.outputs.config-server-image}}"},{"path":"talky","service":"admin-server","image":"${{needs.docker-release.outputs.admin-server-image}}"},{"path":"talky","service":"gateway","image":"${{needs.docker-release.outputs.gateway-image}}"}]'
           echo ::set-output name=deploy-config::$CONFIG
 
       - name: Change versions
