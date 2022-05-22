@@ -4,3 +4,6 @@ server:
 #
 #springdoc:
 #  packagesToScan: com.talky.postservice
+
+exposed-url: https://api.talky.jho.ovh/posts
+

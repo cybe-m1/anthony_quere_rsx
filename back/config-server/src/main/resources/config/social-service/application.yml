@@ -1,3 +1,7 @@
 # Global configuration
 server:
   port: ${network-config.social-service.port}
+
+
+exposed-url: https://api.talky.jho.ovh/social
+
