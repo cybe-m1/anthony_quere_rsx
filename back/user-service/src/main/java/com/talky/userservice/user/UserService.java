@@ -7,9 +7,11 @@ import com.talky.commons.exceptions.TalkyNotFoundException;
 import com.talky.commons.exceptions.TalkyUnauthorizedException;
 import com.talky.commons.users.UserDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -18,6 +20,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 class UserService implements IUser {
   private final UserRepository userRepository;
   private final AuthenticationHelper authenticationHelper;
@@ -31,10 +34,16 @@ class UserService implements IUser {
   }
 
   private String resolveProfilePicture(User user) {
-    if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
-      return assets.getTemporaryLink(ASSET_BUCKET_DIR, user.getProfilePicture()).getUrl().toString();
+    String profilePicture = user.getDefaultProfilePicture();
+    if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty() && !user.getProfilePicture().startsWith("http")) {
+
+      try {
+        profilePicture = assets.getTemporaryLink(ASSET_BUCKET_DIR, user.getProfilePicture()).getUrl().toString();
+      } catch (WebClientResponseException ex) {
+        log.warn("Fail to load profile picture with name : {}", user.getProfilePicture());
+      }
     }
-    return user.getDefaultProfilePicture();
+    return profilePicture;
   }
 
   public UserDto toDto(User user) {
