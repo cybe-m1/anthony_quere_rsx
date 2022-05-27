@@ -26,6 +26,9 @@ spring:
   jpa:
     generate-ddl: false
 
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
 management:
   endpoints:
     web:
