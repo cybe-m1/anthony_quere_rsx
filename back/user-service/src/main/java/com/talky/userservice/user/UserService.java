@@ -66,7 +66,7 @@ class UserService implements IUser {
   UserDto updateUser(UpdateUserRequestDto dto) {
     var currentUser = getCurrentUser().orElseThrow(() -> new TalkyUnauthorizedException("Authentication is required"));
     userMapper.updateUser(dto, currentUser);
-    return toDto(currentUser);
+    return toDto(userRepository.save(currentUser));
   }
 
   Page<UserDto> getUsers(Pageable pageable) {

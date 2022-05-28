@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,8 +21,8 @@ class UserController {
 
   @Operation(description = "List users")
   @GetMapping
-  public Page<UserDto> getUsers(@ParameterObject Pageable pageable) {
-    return userService.getUsers(pageable);
+  public List<UserDto> getUsers(@ParameterObject Pageable pageable) {
+    return userService.getUsers(pageable).getContent();
   }
 
   @Operation(description = "Get the current user profile")
