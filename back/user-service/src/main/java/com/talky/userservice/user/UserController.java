@@ -4,10 +4,12 @@ import com.talky.commons.assets.dto.AssetTemporaryLinkResponseDto;
 import com.talky.commons.users.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,8 +21,8 @@ class UserController {
 
   @Operation(description = "List users")
   @GetMapping
-  public Page<UserDto> getUsers() {
-    return userService.getUsers(Pageable.ofSize(10));
+  public List<UserDto> getUsers(@ParameterObject Pageable pageable) {
+    return userService.getUsers(pageable).getContent();
   }
 
   @Operation(description = "Get the current user profile")
