@@ -6,6 +6,7 @@ import com.talky.commons.auth.AuthenticationHelper;
 import com.talky.commons.exceptions.TalkyNotFoundException;
 import com.talky.commons.exceptions.TalkyUnauthorizedException;
 import com.talky.commons.users.UserDto;
+import com.talky.userservice.devices.IDevices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,7 @@ class UserService implements IUser {
   private final AuthenticationHelper authenticationHelper;
   private final IAssets assets;
   private final UserMapper userMapper;
+  private final IDevices devices;
 
   private final static String ASSET_BUCKET_DIR = "user-profile-dev";
 
@@ -74,9 +76,14 @@ class UserService implements IUser {
     return users.map(this::toDto);
   }
 
-  void updateUserLastConnection() {
+  void updateUserLastConnection(UserPingDto dto) {
     var currentUser = getCurrentUser().orElseThrow(() -> new TalkyUnauthorizedException("Authentication is required"));
     currentUser.setLastSeen(LocalDateTime.now());
+
+    if (dto.getDeviceId() != null) {
+      devices.assignDeviceToUser(dto.getDeviceId(), currentUser.getId());
+    }
+
     userRepository.save(currentUser);
   }
 
