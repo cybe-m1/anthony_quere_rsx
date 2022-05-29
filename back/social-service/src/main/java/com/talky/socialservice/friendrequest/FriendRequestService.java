@@ -21,7 +21,7 @@ class FriendRequestService implements IFriendRequest {
   private FriendRequestDto toDto(FriendRequest fr) {
     var dto = mapper.entityToDto(fr);
     dto.setRecipient(users.getUserById(fr.getRecipient()));
-    dto.setSender(users.getUserById(fr.getRecipient()));
+    dto.setSender(users.getUserById(fr.getSender()));
     return dto;
   }
 
