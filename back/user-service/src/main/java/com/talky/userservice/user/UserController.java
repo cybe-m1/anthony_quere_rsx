@@ -45,8 +45,8 @@ class UserController {
 
   @Operation(description = "Update the last login of a user. Can also be used to register a device")
   @PostMapping("/ping")
-  public void ping() {
-    userService.updateUserLastConnection();
+  public void ping(@RequestBody UserPingDto dto) {
+    userService.updateUserLastConnection(dto);
   }
 
   @Operation(description = "Create a new user that matches the user that made the request.")
