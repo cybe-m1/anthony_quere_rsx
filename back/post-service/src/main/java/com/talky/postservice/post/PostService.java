@@ -4,9 +4,11 @@ import com.talky.commons.assets.IAssets;
 import com.talky.commons.assets.dto.AssetTemporaryLinkResponseDto;
 import com.talky.commons.users.IUsers;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,6 +46,11 @@ class PostService implements IPost {
       .map(this::toDto)
       .toList();
   }
+
+  Page<PostDto> pagePosts(LocalDateTime searchStartDateTime, Pageable pageable) {
+    return repository.findPostsByPrivacyAndCreatedAtBeforeOrderByCreatedAtDesc(PostPrivacy.PUBLIC, searchStartDateTime, pageable).map(this::toDto);
+  }
+
 
   List<PostDto> getUserPosts(UUID userId, Pageable pageable) {
     var currentUser = users.getCurentUser();
