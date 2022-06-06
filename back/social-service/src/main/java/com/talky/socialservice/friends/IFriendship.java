@@ -1,5 +1,6 @@
 package com.talky.socialservice.friends;
 
+import com.talky.commons.social.FriendshipDto;
 import com.talky.commons.users.UserDto;
 
 import java.util.UUID;

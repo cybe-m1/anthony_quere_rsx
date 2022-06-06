@@ -5,6 +5,7 @@ import com.talky.commons.assets.dto.AssetTemporaryLinkResponseDto;
 import com.talky.commons.auth.AuthenticationHelper;
 import com.talky.commons.exceptions.TalkyNotFoundException;
 import com.talky.commons.exceptions.TalkyUnauthorizedException;
+import com.talky.commons.social.ISocial;
 import com.talky.commons.users.UserDto;
 import com.talky.userservice.devices.IDevices;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ class UserService implements IUser {
   private final IAssets assets;
   private final UserMapper userMapper;
   private final IDevices devices;
+  private final ISocial social;
 
   private final static String ASSET_BUCKET_DIR = "user-profile-dev";
 
@@ -54,6 +56,17 @@ class UserService implements IUser {
     dto.setDisplayedName(user.getDisplayedName());
     dto.setLastSeen(user.getLastSeen());
     dto.setProfilePicture(resolveProfilePicture(user));
+    return dto;
+  }
+
+  public ProfileDto toProfileDto(User user) {
+
+    var dto = new ProfileDto();
+    dto.setId(user.getId());
+    dto.setDisplayedName(user.getDisplayedName());
+    dto.setLastSeen(user.getLastSeen());
+    dto.setProfilePicture(resolveProfilePicture(user));
+    dto.setAreFriends(social.findFriendshipByFriend(user.getId()) != null);
     return dto;
   }
 
@@ -89,6 +102,10 @@ class UserService implements IUser {
 
   Optional<UserDto> getUserById(UUID id) {
     return userRepository.findById(id).map(this::toDto);
+  }
+
+  Optional<ProfileDto> getProfileById(UUID id) {
+    return userRepository.findById(id).map(this::toProfileDto);
   }
 
   Optional<UserDto> getCurrentUserDto() {

@@ -1,5 +1,6 @@
 package com.talky.socialservice.friends;
 
+import com.talky.commons.social.FriendshipDto;
 import com.talky.commons.users.IUsers;
 import com.talky.commons.users.UserDto;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,14 @@ class FriendshipService implements IFriendship {
     dto.setFriends(Set.of(friendA, friendB));
 
     return dto;
+  }
+
+  public FriendshipDto getFriendshipByFriend(UUID friendId) {
+    var currentUser = users.getCurentUser();
+
+    return repository.findByFriends(currentUser.getId(), friendId)
+      .map(mapper::entityToDto)
+      .orElse(null);
   }
 
   @Override

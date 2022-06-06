@@ -1,5 +1,6 @@
 package com.talky.socialservice.friends;
 
+import com.talky.commons.social.FriendshipDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
@@ -19,6 +20,11 @@ class FriendshipController {
   @GetMapping
   List<FriendDto> listFriends(@ParameterObject Pageable pageable) {
     return friendshipService.getFriends(pageable);
+  }
+
+  @GetMapping("/friend/{friendId}")
+  FriendshipDto getFriendshipByFriendId(@PathVariable UUID friendId) {
+    return friendshipService.getFriendshipByFriend(friendId);
   }
 
   @GetMapping("/{friendshipId}")
