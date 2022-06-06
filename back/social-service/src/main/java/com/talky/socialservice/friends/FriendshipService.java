@@ -4,6 +4,7 @@ import com.talky.commons.social.FriendshipDto;
 import com.talky.commons.users.IUsers;
 import com.talky.commons.users.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -56,13 +57,24 @@ class FriendshipService implements IFriendship {
 
   List<FriendDto> getFriends(Pageable pageable) {
     var currentUser = users.getCurentUser();
-    var friendships = repository.findByFriendAOrFriendB(currentUser.getId(), currentUser.getId(), pageable);
+    var friendships = repository.findByFriendAOrFriendB(currentUser.getId(), currentUser.getId(), pageable).getContent();
 
     return friendships.stream().map(friendship -> {
       var friendId = friendship.getFriendA().equals(currentUser.getId()) ? friendship.getFriendB() : friendship.getFriendA();
       var friendUserDto = users.getUserById(friendId);
       return new FriendDto(friendship.getId(), friendUserDto);
     }).toList();
+  }
+
+  Page<FriendDto> getFriendsWithPagination(Pageable pageable) {
+    var currentUser = users.getCurentUser();
+    var friendships = repository.findByFriendAOrFriendB(currentUser.getId(), currentUser.getId(), pageable);
+
+    return friendships.map(friendship -> {
+      var friendId = friendship.getFriendA().equals(currentUser.getId()) ? friendship.getFriendB() : friendship.getFriendA();
+      var friendUserDto = users.getUserById(friendId);
+      return new FriendDto(friendship.getId(), friendUserDto);
+    });
   }
 
 

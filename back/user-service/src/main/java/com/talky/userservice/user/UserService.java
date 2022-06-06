@@ -94,6 +94,12 @@ class UserService implements IUser {
     return users.map(this::toDto);
   }
 
+  Page<UserDto> searchUsers(String search, Pageable pageable) {
+    var currentUserId = getCurrentUser().map(User::getId).orElse(null);
+    var users = userRepository.findByIdNotAndDisplayedNameContaining(currentUserId, search, pageable);
+    return users.map(this::toDto);
+  }
+
   void updateUserLastConnection(UserPingDto dto) {
     var currentUser = getCurrentUser().orElseThrow(() -> new TalkyUnauthorizedException("Authentication is required"));
     currentUser.setLastSeen(LocalDateTime.now());
