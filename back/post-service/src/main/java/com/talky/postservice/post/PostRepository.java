@@ -16,4 +16,6 @@ interface PostRepository extends JpaRepository<Post, UUID> {
   List<Post> findPostsByPrivacy(PostPrivacy privacy, Pageable pageable);
 
   Page<Post> findPostsByPrivacyAndCreatedAtBeforeOrderByCreatedAtDesc(PostPrivacy privacy, LocalDateTime datetime, Pageable pageable);
+  Page<Post> findPostsByPrivacyAndCreatedAtBeforeAndAuthorOrderByCreatedAtDesc(PostPrivacy privacy, LocalDateTime datetime, UUID author, Pageable pageable);
+  Page<Post> findPostsByCreatedAtBeforeAndAuthorOrderByCreatedAtDesc(LocalDateTime datetime, UUID author, Pageable pageable);
 }

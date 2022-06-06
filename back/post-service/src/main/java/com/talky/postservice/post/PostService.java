@@ -2,7 +2,9 @@ package com.talky.postservice.post;
 
 import com.talky.commons.assets.IAssets;
 import com.talky.commons.assets.dto.AssetTemporaryLinkResponseDto;
+import com.talky.commons.exceptions.TalkyUnauthorizedException;
 import com.talky.commons.users.IUsers;
+import com.talky.commons.users.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +51,17 @@ class PostService implements IPost {
 
   Page<PostDto> pagePosts(LocalDateTime searchStartDateTime, Pageable pageable) {
     return repository.findPostsByPrivacyAndCreatedAtBeforeOrderByCreatedAtDesc(PostPrivacy.PUBLIC, searchStartDateTime, pageable).map(this::toDto);
+  }
+
+  Page<PostDto> pageUserPosts(UUID userId, LocalDateTime searchStartDateTime, Pageable pageable) {
+    UserDto currentUser;
+    try {
+      currentUser = users.getCurentUser();
+      if (userId.equals(currentUser.getId())) {
+        return repository.findPostsByCreatedAtBeforeAndAuthorOrderByCreatedAtDesc(searchStartDateTime, userId, pageable).map(this::toDto);
+      }
+    } catch (Exception ignored) { }
+    return repository.findPostsByPrivacyAndCreatedAtBeforeAndAuthorOrderByCreatedAtDesc(PostPrivacy.PUBLIC, searchStartDateTime, userId, pageable).map(this::toDto);
   }
 
 

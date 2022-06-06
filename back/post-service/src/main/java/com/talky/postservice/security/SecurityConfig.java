@@ -17,6 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .authorizeRequests()
       .antMatchers(HttpMethod.GET, "/api/v1/posts").permitAll()
       .antMatchers(HttpMethod.GET, "/api/v2/posts").permitAll()
+      .antMatchers(HttpMethod.GET, "/api/v2/posts/author/**").permitAll()
       .antMatchers("/api/**").authenticated()
       .and()
       .oauth2ResourceServer().jwt();
