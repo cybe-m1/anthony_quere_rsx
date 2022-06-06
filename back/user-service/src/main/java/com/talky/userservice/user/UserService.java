@@ -80,7 +80,12 @@ class UserService implements IUser {
 
   UserDto updateUser(UpdateUserRequestDto dto) {
     var currentUser = getCurrentUser().orElseThrow(() -> new TalkyUnauthorizedException("Authentication is required"));
-    userMapper.updateUser(dto, currentUser);
+    if (dto.getDisplayedName() != null && !dto.getDisplayedName().isEmpty()) {
+      currentUser.setDisplayedName(dto.getDisplayedName());
+    }
+    if (dto.getProfilePicture() != null && !dto.getProfilePicture().isEmpty()) {
+      currentUser.setProfilePicture(dto.getProfilePicture());
+    }
     return toDto(userRepository.save(currentUser));
   }
 
