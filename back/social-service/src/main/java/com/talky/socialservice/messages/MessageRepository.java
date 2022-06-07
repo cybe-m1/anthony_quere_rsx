@@ -9,6 +9,6 @@ import java.util.UUID;
 
 
 interface MessageRepository extends JpaRepository<Message, UUID> {
-  Page<Message> getByFriendshipIdAndCreatedAtBefore(UUID friendshipId, LocalDateTime localDateTime, Pageable pageable);
-  Page<Message> getByFriendshipIdAndCreatedAtAfter(UUID friendshipId, LocalDateTime localDateTime, Pageable pageable);
+  Page<Message> getByFriendshipIdAndCreatedAtBeforeOrderByCreatedAtDesc(UUID friendshipId, LocalDateTime localDateTime, Pageable pageable);
+  Page<Message> getByFriendshipIdAndCreatedAtAfterOrderByCreatedAtAsc(UUID friendshipId, LocalDateTime localDateTime, Pageable pageable);
 }

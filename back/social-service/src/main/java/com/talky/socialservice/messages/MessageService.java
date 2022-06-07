@@ -65,8 +65,8 @@ class MessageService {
     }
 
     var messages = switch (fetchOption) {
-      case AFTER -> messageRepository.getByFriendshipIdAndCreatedAtAfter(friendshipId, dateTime, page);
-      case BEFORE -> messageRepository.getByFriendshipIdAndCreatedAtBefore(friendshipId, dateTime, page);
+      case AFTER -> messageRepository.getByFriendshipIdAndCreatedAtAfterOrderByCreatedAtAsc(friendshipId, dateTime, page);
+      case BEFORE -> messageRepository.getByFriendshipIdAndCreatedAtBeforeOrderByCreatedAtDesc(friendshipId, dateTime, page);
     };
 
     return messages.map(mapper::entitytoDto);
