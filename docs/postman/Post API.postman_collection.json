@@ -1,0 +1,710 @@
+{
+	"info": {
+		"_postman_id": "00e855a8-6f3f-4408-99c4-bf2300e66769",
+		"name": "Post API",
+		"description": "Documentation of Post API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14589351"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "v1/posts",
+					"item": [
+						{
+							"name": "list Posts 1",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/posts?page=0&size=20",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0",
+											"description": "Zero-based page index (0..N)"
+										},
+										{
+											"key": "size",
+											"value": "20",
+											"description": "The size of the page to be returned"
+										},
+										{
+											"key": "sort",
+											"value": "sunt reprehenderit labore aliqua",
+											"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "labor",
+											"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+											"disabled": true
+										}
+									]
+								},
+								"description": "List public posts"
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/posts?page=0&size=20&sort=incididunt do aute&sort=exercitation",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"posts"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "0"
+												},
+												{
+													"key": "size",
+													"value": "20"
+												},
+												{
+													"key": "sort",
+													"value": "incididunt do aute"
+												},
+												{
+													"key": "sort",
+													"value": "exercitation"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "create Post",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"content\": \"Gingerbread I love sesame snaps topping topping gummies dragée I love pudding. Dessert wafer cupcake soufflé marshmallow lemon drops pastry.\",\n  \"privacy\": \"PUBLIC\",\n  \"assets\": []\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/posts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									]
+								},
+								"description": "Create a post"
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"content\": \"Gingerbread I love sesame snaps topping topping gummies dragée I love pudding. Dessert wafer cupcake soufflé marshmallow lemon drops pastry.\",\n  \"privacy\": \"PUBLIC\",\n  \"assets\": [\n    \"dolore aliqua dolor voluptate tempor\",\n    \"in est\"\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/posts",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"posts"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "list User Posts 1",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/posts/author/:authorId?page=0&size=20&sort=sunt reprehenderit labore aliqua&sort=labor",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts",
+										"author",
+										":authorId"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0",
+											"description": "Zero-based page index (0..N)"
+										},
+										{
+											"key": "size",
+											"value": "20",
+											"description": "The size of the page to be returned"
+										},
+										{
+											"key": "sort",
+											"value": "sunt reprehenderit labore aliqua",
+											"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+										},
+										{
+											"key": "sort",
+											"value": "labor",
+											"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+										}
+									],
+									"variable": [
+										{
+											"key": "authorId",
+											"value": "urn:uuid:bc438478-bb17-fe8d-795e-e61b1b5f4175",
+											"description": "(Required) UUID of the posts author"
+										}
+									]
+								},
+								"description": "List posts from a user"
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/posts/author/:authorId?page=0&size=20&sort=incididunt do aute&sort=exercitation",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"posts",
+												"author",
+												":authorId"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "0"
+												},
+												{
+													"key": "size",
+													"value": "20"
+												},
+												{
+													"key": "sort",
+													"value": "incididunt do aute"
+												},
+												{
+													"key": "sort",
+													"value": "exercitation"
+												}
+											],
+											"variable": [
+												{
+													"key": "authorId",
+													"value": "urn:uuid:bc438478-bb17-fe8d-795e-e61b1b5f4175",
+													"description": "(Required) UUID of the posts author"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get Asset Upload Link",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/posts/asset/upload?extension=ullamco eiusmod sint Excepteur",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts",
+										"asset",
+										"upload"
+									],
+									"query": [
+										{
+											"key": "extension",
+											"value": "ullamco eiusmod sint Excepteur",
+											"description": "(Required) "
+										}
+									]
+								},
+								"description": "Generate an upload link for an asset. The link can be used by a form to upload an asset. The generated link is available for 30 minutes."
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/posts/asset/upload?extension=ullamco eiusmod sint Excepteur",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"posts",
+												"asset",
+												"upload"
+											],
+											"query": [
+												{
+													"key": "extension",
+													"value": "ullamco eiusmod sint Excepteur"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "v2/posts",
+					"item": [
+						{
+							"name": "list Posts",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v2/posts?page=0&size=20&sort=sunt reprehenderit labore aliqua&sort=labor&searchStart=1944-08-13T04:28:00.001Z",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v2",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0",
+											"description": "Zero-based page index (0..N)"
+										},
+										{
+											"key": "size",
+											"value": "20",
+											"description": "The size of the page to be returned"
+										},
+										{
+											"key": "sort",
+											"value": "sunt reprehenderit labore aliqua",
+											"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+										},
+										{
+											"key": "sort",
+											"value": "labor",
+											"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+										},
+										{
+											"key": "searchStart",
+											"value": "1944-08-13T04:28:00.001Z",
+											"description": "(Required) "
+										}
+									]
+								},
+								"description": "List public posts with pagination"
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/v2/posts?page=0&size=20&sort=incididunt do aute&sort=exercitation&searchStart=1944-08-13T04:28:00.001Z",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"posts"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "0"
+												},
+												{
+													"key": "size",
+													"value": "20"
+												},
+												{
+													"key": "sort",
+													"value": "incididunt do aute"
+												},
+												{
+													"key": "sort",
+													"value": "exercitation"
+												},
+												{
+													"key": "searchStart",
+													"value": "1944-08-13T04:28:00.001Z"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "list User Posts",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v2/posts/author/:authorId?page=0&size=20&sort=sunt reprehenderit labore aliqua&sort=labor&searchStart=1944-08-13T04:28:00.001Z",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v2",
+										"posts",
+										"author",
+										":authorId"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0",
+											"description": "Zero-based page index (0..N)"
+										},
+										{
+											"key": "size",
+											"value": "20",
+											"description": "The size of the page to be returned"
+										},
+										{
+											"key": "sort",
+											"value": "sunt reprehenderit labore aliqua",
+											"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+										},
+										{
+											"key": "sort",
+											"value": "labor",
+											"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+										},
+										{
+											"key": "searchStart",
+											"value": "1944-08-13T04:28:00.001Z",
+											"description": "(Required) "
+										}
+									],
+									"variable": [
+										{
+											"key": "authorId",
+											"value": "urn:uuid:bc438478-bb17-fe8d-795e-e61b1b5f4175",
+											"description": "(Required) UUID of the posts author"
+										}
+									]
+								},
+								"description": "List posts from a user with pagination"
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/v2/posts/author/:authorId?page=0&size=20&sort=incididunt do aute&sort=exercitation&searchStart=1944-08-13T04:28:00.001Z",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"posts",
+												"author",
+												":authorId"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "0"
+												},
+												{
+													"key": "size",
+													"value": "20"
+												},
+												{
+													"key": "sort",
+													"value": "incididunt do aute"
+												},
+												{
+													"key": "sort",
+													"value": "exercitation"
+												},
+												{
+													"key": "searchStart",
+													"value": "1944-08-13T04:28:00.001Z"
+												}
+											],
+											"variable": [
+												{
+													"key": "authorId",
+													"value": "urn:uuid:bc438478-bb17-fe8d-795e-e61b1b5f4175",
+													"description": "(Required) UUID of the posts author"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessTokenUrl",
+				"value": "https://anthonyjhoiro.eu.auth0.com/oauth/token",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{AUTH0_CLIENT_SECRET}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{AUTH0_CLIENTID}}",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "{{EDN_PASSWORD}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{EDN_USER}}",
+				"type": "string"
+			},
+			{
+				"key": "audience",
+				"value": {
+					"39872de9-72be-4e3f-8625-08ccc9d2d1db": "tester-api"
+				},
+				"type": "any"
+			},
+			{
+				"key": "grant_type",
+				"value": "password_credentials",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "tkn",
+				"type": "string"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "useBrowser",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "authUrl",
+				"value": "https://anthonyjhoiro.eu.auth0.com/authorize",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "body",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api.talky.jho.ovh/posts",
+			"type": "string"
+		}
+	]
+}
