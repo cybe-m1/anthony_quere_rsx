@@ -98,3 +98,8 @@ FIREBASESERVICEACCOUNT=xxx
       ├── social-service  # Service for friends requests, friends and messaging
       └── user-service    # Service for users and link to Auth0
 ```
+
+## Notes
+As this API is also used in the project [Anthony-Jhoiro/talky-android](https://github.com/Anthony-Jhoiro/talky-android),
+some behavior needed to stay the same after the end of the project that's why dates do not contain the timezone in the 
+API responses and some endpoints had to be re-written in v2.    
