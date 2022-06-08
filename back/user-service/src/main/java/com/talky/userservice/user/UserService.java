@@ -96,7 +96,7 @@ class UserService implements IUser {
 
   Page<UserDto> searchUsers(String search, Pageable pageable) {
     var currentUserId = getCurrentUser().map(User::getId).orElse(null);
-    var users = userRepository.findByIdNotAndDisplayedNameContaining(currentUserId, search, pageable);
+    var users = userRepository.findByIdNotAndDisplayedNameContainingIgnoreCase(currentUserId, search, pageable);
     return users.map(this::toDto);
   }
 

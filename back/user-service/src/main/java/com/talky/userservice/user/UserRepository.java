@@ -10,5 +10,5 @@ import java.util.UUID;
 interface UserRepository extends JpaRepository<User, UUID> {
   Optional<User> findByAccountId(String accountId);
 
-  Page<User> findByIdNotAndDisplayedNameContaining(UUID userId, String search, Pageable pageable);
+  Page<User> findByIdNotAndDisplayedNameContainingIgnoreCase(UUID userId, String search, Pageable pageable);
 }
