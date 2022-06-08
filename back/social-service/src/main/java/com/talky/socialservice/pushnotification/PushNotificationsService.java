@@ -33,10 +33,14 @@ class PushNotificationsService implements IPushNotification {
       .putAllData(notification.body().toMessageData())
       .build()).toList();
 
-    try {
-      firebaseMessaging.sendAll(messages);
-    } catch (FirebaseMessagingException ex) {
-      log.warn("Fail to send firebase notification : {}", ex.getMessagingErrorCode());
+    if (messages.size() != 0) {
+      try {
+        firebaseMessaging.sendAll(messages);
+      } catch (FirebaseMessagingException ex) {
+        log.warn("Fail to send firebase notification : {}", ex.getMessagingErrorCode());
+      }
     }
+
+
   }
 }
